@@ -11,14 +11,33 @@
         var $body = $('body');
         $body.html('');
 
-        var index = streams.home.length - 1;
-        while(index >= 0){
-          var tweet = streams.home[index];
-          var $tweet = $('<div></div>');
-          $tweet.text(tweet.created_at + ' @' + tweet.user + ': ' + tweet.message);
-          $tweet.appendTo($body);
-          index -= 1;
+        // This is the display function
+        var tweetDisplay = function() {
+          var index = streams.home.length - 1;
+          $body.empty();
+          while(index >= 0){
+            var tweet = streams.home[index];
+            var $tweet = $('<div></div>');
+            $tweet.text(tweet.created_at + ' @' + tweet.user + ': ' + tweet.message);
+            $tweet.appendTo($body);
+            index -= 1;
+          }
+        };
+
+        // This function refreshes the stream if users have added new tweets
+        var firstCreatedAt;
+        var tweetRefresh = function(callback, frequency) {
+          setInterval(function() {
+            var lastIndex = streams.home.length - 1;
+            if (firstCreatedAt != streams.home[lastIndex].created_at)
+              callback();
+            firstCreatedAt = streams.home[lastIndex].created_at;
+          }, frequency);
         }
+
+
+        tweetDisplay();
+        tweetRefresh(tweetDisplay, 1000);
 
       });
 
