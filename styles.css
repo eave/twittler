@@ -1,0 +1,23 @@
+.navbar-default .navbar-brand {
+	color: #563d7c;
+	font-weight: bold;
+	font-size: 20px;
+}
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus {
+    color: #826AA5;
+}
+
+body {
+	padding-top: 60px;
+	background-color: #f7f7f9;
+}
+
+.userName {
+	font-weight: bold;
+}
+
+.createdAt {
+	color: #999;
+	font-style: italic;
+}

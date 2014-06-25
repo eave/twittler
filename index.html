@@ -1,6 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Twittler</title>
+
+    <!-- Bootstrap and stylesheets -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
   </head>
@@ -8,8 +18,6 @@
     <script>
 
       $(document).ready(function(){
-        var $body = $('body');
-        $body.html('');
 
         // This is the display function
         var ref;
@@ -20,23 +28,34 @@
             ref = streams.home;
           }
 
-          $body.empty();
+          $("#tweetStream").empty();
           var index = ref.length - 1;
           while (index >= 0) {
             var tweet = ref[index];
-            var $tweet = $('<div>' +
-              tweet.created_at +
-              '<div class="userName"><a href="#" class="' + tweet.user + '"">' + 
-              ' @' + tweet.user + 
-              '</a></div>' +
-              tweet.message +
+            var $tweet = $('' +
+              '<div class="oneTweet row span7">' +
+                '<div class="row">' +
+                  '<div class="userName col-md-4"><a href="#" class="' + tweet.user + '">' + 
+                    ' @' + tweet.user +
+                  '</a></div>' +
+                '</div>' +
+                '<div class="row">' +
+                  '<div class="col-md-4">' +
+                    tweet.message +
+                  '</div>' +
+                '</div>' +
+                '<div class="row">' +
+                  '<p class="createdAt col-md-4">' +
+                    tweet.created_at +
+                  '</p>' +
+                '</div>' +
               '</div>');
-            $tweet.appendTo($body);
+            $tweet.appendTo("#tweetStream");
             index -= 1;
           }
         };
 
-        // This function refreshes the stream if there are new tweets
+        // This refreshes the stream if there are new tweets
         var streamLength, testLength, timer;
         var tweetRefresh = function(callback, frequency, user) {
           timer = setInterval(function() {
@@ -53,7 +72,7 @@
         }
 
         // This adds filter functionality
-        $('body').on('click', 'a', function() {
+        $("#tweetStream").on('click', 'a', function() {
           var user = this.getAttribute('class');
           clearInterval(timer);
           tweetDisplay(user);
@@ -67,5 +86,28 @@
       });
 
     </script>
+
+    <div class="container" id="pageTop">
+      
+      <!-- Navbar -->
+      <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <div class="navbar-brand">Twittler</div>
+          </div>
+          <div class="navbar-collapse collapse"></div>
+        </div>
+      </div>
+
+      <!-- Main body -->
+      <div id="tweetField" class="row">
+        <div class="row" id="tweetHeader">
+            <h2>Tweet Stream</h2>
+        </div>
+        <div id="tweetStream">
+          <!-- where tweets go -->
+        </div>
+      </div>
+    </div>
   </body>
 </html>
